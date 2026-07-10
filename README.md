@@ -30,11 +30,13 @@ samtools 1.12
 ```
 
 When running on real data, a high-performance computing machine is recommended.
+
 No non-standard hardware is required.
 
 ## Installation guide
 
 Install the above dependencies from repository of your Linux system or using conda.
+
 The install time should be very short with a good internet connection.
 
 ## Demo
@@ -48,7 +50,9 @@ Use the demo data in folder `demo` to test the code:
 1. run `code/02_analysis/scripts_hsa/find_candidates.r`
 
 The expected run time should be short, since the demo data is very small.
+
 The `code/01_processing/run_pipelines.sh` should generate counts of mapped fragments to the genome and spike-ins.
+
 The `code/02_analysis/scripts_hsa/find_candidates.r` should not generate results for genome since the demo data is too small, while it should generate results for the spike-ins.
 
 ## Instructions for use
