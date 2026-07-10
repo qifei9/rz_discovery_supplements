@@ -3,7 +3,6 @@
 # get_proceeding_seq_for_peaks.sh
 # Copyright (C) 2023 qifei <qifei@IOG.localdomain>
 #
-# Distributed under terms of the MIT license.
 #
 
 

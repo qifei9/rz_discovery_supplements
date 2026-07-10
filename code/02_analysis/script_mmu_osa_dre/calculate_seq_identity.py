@@ -3,11 +3,8 @@
 #
 # Copyright © 2023 qifei <qifei@IOG.localdomain>
 #
-# Distributed under terms of the MIT license.
 
-"""
-
-"""
+""" """
 
 import argparse
 from Bio import SeqIO
@@ -32,20 +29,19 @@ def main():
 
     parse = argparse.ArgumentParser()
 
-    parse.add_argument('ref_seq', help='reference sequence')
+    parse.add_argument("ref_seq", help="reference sequence")
 
-    parse.add_argument('seq_set', help='sequences to calculate identity to ref seq')
+    parse.add_argument("seq_set", help="sequences to calculate identity to ref seq")
 
     args = parse.parse_args()
 
     ref_seq = SeqIO.read(args.ref_seq, "fasta")
 
     with open(args.seq_set) as f:
-        for seq in SeqIO.parse(f, 'fasta'):
+        for seq in SeqIO.parse(f, "fasta"):
             identity = calculate_identity(ref_seq, seq)
-            print(ref_seq.id, seq.id, identity, sep='\t')
+            print(ref_seq.id, seq.id, identity, sep="\t")
 
 
 if __name__ == "__main__":
     main()
-

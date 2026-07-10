@@ -3,7 +3,6 @@
 # run_pipelines.sh
 # Copyright (C) 2022 qifei9 <qifei9@gmail.com>
 #
-# Distributed under terms of the MIT license.
 #
 
 snakemake -j 100 --use-conda --wrapper-prefix 'git+file://path/to/snakemake-wrappers' -s ./Snakefile_library_ani_L1
