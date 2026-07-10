@@ -1,0 +1,35 @@
+from snakemake.utils import min_version
+min_version("6.0")
+
+configfile: 'config.yaml'
+
+include: 'rules/common.smk'
+
+
+subset = 'hsa_TA'
+
+config_dict = {
+    'dir' : config['dir'],
+    'threads' : config['threads'],
+    'adapters' : get_adapters(config, subset),
+    'adapter_spikeins' : get_adapter_spikeins(config, subset),
+    'params' : config['params'],
+    'refs' : get_refs(config, subset),
+}
+
+
+rule all:
+    input:
+        define_final_output(config, subset, config['dir']['results']['bed'], '_{tag}.bed'),
+        define_final_output(config, subset, config['dir']['qc'], '_{num}_fastqc.zip'),
+    output:
+        touch(os.path.join(config['dir']['qc'], f'done_{subset}'))
+
+
+
+module rules_collection:
+    snakefile: "rules/rules.smk"
+    config: config_dict
+
+
+use rule fastqc, cutadapt_5end_rename_R1, cutadapt_3end, cutadapt_separate_by_R2, bowtie2, filter_by_mapQ_and_chromosome, samtools_nsort, bedtools_bamtobed, count_fragments from rules_collection

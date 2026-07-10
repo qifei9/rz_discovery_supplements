@@ -21,6 +21,6 @@ for len in ${lengths[@]}
 do
   for lm in ${lms[@]}
   do
-    python $script "../data/oligos_${lm}_${len}.fa" "../analysis/peaks_${lm}_slopped_${len}.fa" > "../analysis/peaks_${lm}_slopped_${len}_iden.tsv"
+    python $script "../../../demo/02_analysis/oligos_${lm}_${len}.fa" "../analysis/peaks_${lm}_slopped_${len}.fa" > "../analysis/peaks_${lm}_slopped_${len}_iden.tsv"
   done
 done

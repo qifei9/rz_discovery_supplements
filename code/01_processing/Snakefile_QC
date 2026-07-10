@@ -1,0 +1,17 @@
+configfile: 'config.yaml'
+
+
+rule all:
+    input:
+        os.path.join(config['dir']['qc'], "multiqc.html")
+
+
+rule multiqc:
+    input:
+        expand(os.path.join(config['dir']['qc'], 'done_{subset}'), subset = config['dataset'].keys())
+    output:
+        os.path.join(config['dir']['qc'], "multiqc.html")
+    log:
+        os.path.join(config['dir']['log'], "multiqc.log")
+    wrapper:
+        "v1.25.0/bio/multiqc"

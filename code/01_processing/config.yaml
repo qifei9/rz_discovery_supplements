@@ -1,0 +1,553 @@
+threads: 100
+params:
+  mapQ: 42
+dir:
+  raw: ../../demo/01_processing # NOTE: folder for the raw sequencing data
+  qc: QC
+  results:
+    fq: results/01.fq
+    bam: results/02.bam
+    bedpe: results/03.bedpe
+    bed: results/04.bed
+  log: logs
+adapters:
+  spikeins20: meta/separate_spikeins20.fasta
+  tailing_polyC:
+    R1:
+      5end: meta/tailing_polyC_adapter_R1_5end.fasta
+      3end: meta/tailing_polyC_adapter_R1_3end.fasta
+      3end_se: null
+    R2:
+      5end: meta/tailing_polyC_adapter_R2_5end.fasta
+      3end: meta/tailing_polyC_adapter_R2_3end.fasta
+    reads_renamed: 1 # boolean
+    strand_as_R1: 1 # boolean
+  tailing_polyA:
+    R1:
+      5end: meta/tailing_polyA_adapter_R1_5end.fasta
+      3end: meta/tailing_polyA_adapter_R1_3end.fasta
+      3end_se: null
+    R2:
+      5end: meta/tailing_polyA_adapter_R2_5end.fasta
+      3end: meta/tailing_polyA_adapter_R2_3end.fasta
+    reads_renamed: 1 # boolean
+    strand_as_R1: 1 # boolean
+  oligo_ligation:
+    R1:
+      5end: meta/ligation_adapter_R1_5end.fasta
+      3end: meta/ligation_adapter_R1_3end.fasta
+      3end_se: null
+    R2:
+      5end: meta/ligation_adapter_R2_5end.fasta
+      3end: meta/ligation_adapter_R2_3end.fasta
+    reads_renamed: 1 # boolean
+    strand_as_R1: 1 # boolean
+  oligo_ligation2:
+    R1:
+      5end: meta/ligation_adapter2_R1_5end.fasta
+      3end: meta/ligation_adapter2_R1_3end.fasta
+      3end_se: null
+    R2:
+      5end: meta/ligation_adapter2_R2_5end.fasta
+      3end: meta/ligation_adapter2_R2_3end.fasta
+    reads_renamed: 1 # boolean
+    strand_as_R1: 1 # boolean
+refs:
+  GRCh38:
+    chromosome: ../../biodata/genomes/GRCh38/GRCh38_no_alt_plus_hs38d1_analysis_set/GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set_K562.bed
+    index:
+      bowtie2: ../../biodata/genomes/GRCh38/GRCh38_no_alt_plus_hd38d1_analysis_set/bowtie2/GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fna.bowtie_index
+  GRCz11:
+    chromosome: null
+    index:
+      bowtie2: ../../biodata/genomes/GRCz11/GRCz11_no_alt/bowtie2/GRCz11_no_alt
+  GRCm39:
+    chromosome: null
+    index:
+      bowtie2: ../../biodata/genomes/GRCm39/bowtie2/GRCm39
+  IRGSP-1.0:
+    chromosome: null
+    index:
+      bowtie2: ../../biodata/genomes/IRGSP-1.0/bowtie2/IRGSP-1.0
+  spikeins20:
+    index:
+      bowtie2: ../../biodata/genomes/GRCh38/GRCh38_no_alt_plus_hd38d1_analysis_set_plus_RZ_20_spikeins/bowtie2_20_spikeins/20_spikeins_index
+  DhydRS2_spikeins:
+    chromosome: null
+    index:
+      bowtie2: ../../biodata/genomes/DhydRS2/bowtie2/DhydRS2_spikeins
+  TAIR10.1_spikeins:
+    chromosome: null
+    index:
+      bowtie2: ../../biodata/genomes/TAIR10.1/bowtie2/TAIR10_spikeins
+  ASM1142v1_spikeins:
+    chromosome: null
+    index:
+      bowtie2: ../../biodata/genomes/ASM1142v1/bowtie2/ASM1142v1_spikeins
+  ASM202278v1_spikeins:
+    chromosome: null
+    index:
+      bowtie2: ../../biodata/genomes/ASM202278v1/bowtie2/ASM202278v1_spikeins
+dataset:
+  ani_L1:
+    name_pattern: "{samplename}_{rep}_{exp}"
+    samplenames: ani_L1
+    reps:
+      - r1
+      - r2
+      - r3
+    exps:
+      - untreated
+    tags:
+      - genome
+      - spikeins
+    adapters: oligo_ligation
+    ref:
+      genome: ASM1142v1_spikeins
+      spikeins: spikeins20
+  ani_TA:
+    name_pattern: "{samplename}_{rep}_{exp}"
+    samplenames: ani_TA
+    reps:
+      - r1
+      - r2
+      - r3
+    exps:
+      - untreated
+      - treated
+    tags:
+      - genome
+      - spikeins
+    adapters: tailing_polyA
+    ref:
+      genome: ASM1142v1_spikeins
+      spikeins: spikeins20
+  ani_TC:
+    name_pattern: "{samplename}_{rep}_{exp}"
+    samplenames: ani_TC
+    reps:
+      - r1
+      - r2
+      - r3
+    exps:
+      - untreated
+      - treated
+    tags:
+      - genome
+      - spikeins
+    adapters: tailing_polyC
+    ref:
+      genome: ASM1142v1_spikeins
+      spikeins: spikeins20
+  ath_L1:
+    name_pattern: "{samplename}_{rep}_{exp}"
+    samplenames: ath_L1
+    reps:
+      - r1
+      - r2
+      - r3
+    exps:
+      - untreated
+    tags:
+      - genome
+      - spikeins
+    adapters: oligo_ligation
+    ref:
+      genome: TAIR10.1_spikeins
+      spikeins: spikeins20
+  ath_TA:
+    name_pattern: "{samplename}_{rep}_{exp}"
+    samplenames: ath_TA
+    reps:
+      - r1
+      - r2
+      - r3
+    exps:
+      - untreated
+      - treated
+    tags:
+      - genome
+      - spikeins
+    adapters: tailing_polyA
+    ref:
+      genome: TAIR10.1_spikeins
+      spikeins: spikeins20
+  ath_TC:
+    name_pattern: "{samplename}_{rep}_{exp}"
+    samplenames: ath_TC
+    reps:
+      - r1
+      - r2
+      - r3
+    exps:
+      - untreated
+      - treated
+    tags:
+      - genome
+      - spikeins
+    adapters: tailing_polyC
+    ref:
+      genome: TAIR10.1_spikeins
+      spikeins: spikeins20
+  dhy_L1:
+    name_pattern: "{samplename}_{rep}_{exp}"
+    samplenames: dhy_L1
+    reps:
+      - r1
+      - r2
+      - r3
+    exps:
+      - untreated
+    tags:
+      - genome
+      - spikeins
+    adapters: oligo_ligation
+    ref:
+      genome: DhydRS2_spikeins
+      spikeins: spikeins20
+  dhy_TA:
+    name_pattern: "{samplename}_{rep}_{exp}"
+    samplenames: dhy_TA
+    reps:
+      - r1
+      - r2
+      - r3
+    exps:
+      - untreated
+      - treated
+    tags:
+      - genome
+      - spikeins
+    adapters: tailing_polyA
+    ref:
+      genome: DhydRS2_spikeins
+      spikeins: spikeins20
+  dhy_TC:
+    name_pattern: "{samplename}_{rep}_{exp}"
+    samplenames: dhy_TC
+    reps:
+      - r1
+      - r2
+      - r3
+    exps:
+      - untreated
+      - treated
+    tags:
+      - genome
+      - spikeins
+    adapters: tailing_polyC
+    ref:
+      genome: DhydRS2_spikeins
+      spikeins: spikeins20
+  tgu_L1:
+    name_pattern: "{samplename}_{rep}_{exp}"
+    samplenames: tgu_L1
+    reps:
+      - r1
+      - r2
+      - r3
+    exps:
+      - untreated
+    tags:
+      - genome
+      - spikeins
+    adapters: oligo_ligation
+    ref:
+      genome: ASM202278v1_spikeins
+      spikeins: spikeins20
+  tgu_TA:
+    name_pattern: "{samplename}_{rep}_{exp}"
+    samplenames: tgu_TA
+    reps:
+      - r1
+      - r2
+      - r3
+    exps:
+      - untreated
+      - treated
+    tags:
+      - genome
+      - spikeins
+    adapters: tailing_polyA
+    ref:
+      genome: ASM202278v1_spikeins
+      spikeins: spikeins20
+  tgu_TC:
+    name_pattern: "{samplename}_{rep}_{exp}"
+    samplenames: tgu_TC
+    reps:
+      - r1
+      - r2
+      - r3
+    exps:
+      - untreated
+      - treated
+    tags:
+      - genome
+      - spikeins
+    adapters: tailing_polyC
+    ref:
+      genome: ASM202278v1_spikeins
+      spikeins: spikeins20
+  hsa_L1:
+    name_pattern: "{samplename}_{rep}_{exp}"
+    samplenames: hsa_L1
+    reps:
+      - r1
+      - r2
+    exps:
+      - untreated
+      - treated
+    tags:
+      - genome
+      - spikeins
+    adapters: oligo_ligation
+    ref:
+      genome: GRCh38
+      spikeins: spikeins20
+  hsa_L2:
+    name_pattern: "{samplename}_{rep}_{exp}"
+    samplenames: hsa_L2
+    reps:
+      - r1
+      - r2
+    exps:
+      - untreated
+      - treated
+    tags:
+      - genome
+      - spikeins
+    adapters: oligo_ligation2
+    ref:
+      genome: GRCh38
+      spikeins: spikeins20
+  hsa_TA:
+    name_pattern: "{samplename}_{rep}_{exp}"
+    samplenames: hsa_TA
+    reps:
+      - r1
+      - r2
+    exps:
+      - untreated
+      - treated
+    tags:
+      - genome
+      - spikeins
+    adapters: tailing_polyA
+    ref:
+      genome: GRCh38
+      spikeins: spikeins20
+  hsa_TC:
+    name_pattern: "{samplename}_{rep}_{exp}"
+    samplenames: hsa_TC
+    reps:
+      - r1
+      - r2
+    exps:
+      - untreated
+      - treated
+    tags:
+      - genome
+      - spikeins
+    adapters: tailing_polyC
+    ref:
+      genome: GRCh38
+      spikeins: spikeins20
+  mmu_L1:
+    name_pattern: "{samplename}_{rep}_{exp}"
+    samplenames: mmu_L1
+    reps:
+      - r1
+      - r2
+      - r3
+    exps:
+      - untreated
+    tags:
+      - genome
+      - spikeins
+    adapters: oligo_ligation
+    ref:
+      genome: GRCm39
+      spikeins: spikeins20
+  mmu_L2:
+    name_pattern: "{samplename}_{rep}_{exp}"
+    samplenames: mmu_L2
+    reps:
+      - r1
+      - r2
+      - r3
+    exps:
+      - untreated
+    tags:
+      - genome
+      - spikeins
+    adapters: oligo_ligation2
+    ref:
+      genome: GRCm39
+      spikeins: spikeins20
+  mmu_TA:
+    name_pattern: "{samplename}_{rep}_{exp}"
+    samplenames: mmu_TA
+    reps:
+      - r1
+      - r2
+      - r3
+    exps:
+      - untreated
+      - treated
+    tags:
+      - genome
+      - spikeins
+    adapters: tailing_polyA
+    ref:
+      genome: GRCm39
+      spikeins: spikeins20
+  mmu_TC:
+    name_pattern: "{samplename}_{rep}_{exp}"
+    samplenames: mmu_TC
+    reps:
+      - r1
+      - r2
+      - r3
+    exps:
+      - untreated
+      - treated
+    tags:
+      - genome
+      - spikeins
+    adapters: tailing_polyC
+    ref:
+      genome: GRCm39
+      spikeins: spikeins20
+  osa_L1:
+    name_pattern: "{samplename}_{rep}_{exp}"
+    samplenames: osa_L1
+    reps:
+      - r1
+      - r2
+      - r3
+    exps:
+      - untreated
+    tags:
+      - genome
+      - spikeins
+    adapters: oligo_ligation
+    ref:
+      genome: IRGSP-1.0
+      spikeins: spikeins20
+  osa_L2:
+    name_pattern: "{samplename}_{rep}_{exp}"
+    samplenames: osa_L2
+    reps:
+      - r1
+      - r2
+      - r3
+    exps:
+      - untreated
+    tags:
+      - genome
+      - spikeins
+    adapters: oligo_ligation2
+    ref:
+      genome: IRGSP-1.0
+      spikeins: spikeins20
+  osa_TA:
+    name_pattern: "{samplename}_{rep}_{exp}"
+    samplenames: osa_TA
+    reps:
+      - r1
+      - r2
+      - r3
+    exps:
+      - untreated
+      - treated
+    tags:
+      - genome
+      - spikeins
+    adapters: tailing_polyA
+    ref:
+      genome: IRGSP-1.0
+      spikeins: spikeins20
+  osa_TC:
+    name_pattern: "{samplename}_{rep}_{exp}"
+    samplenames: osa_TC
+    reps:
+      - r1
+      - r2
+      - r3
+    exps:
+      - untreated
+      - treated
+    tags:
+      - genome
+      - spikeins
+    adapters: tailing_polyC
+    ref:
+      genome: IRGSP-1.0
+      spikeins: spikeins20
+  dre_L1:
+    name_pattern: "{samplename}_{rep}_{exp}"
+    samplenames: dre_L1
+    reps:
+      - r1
+      - r2
+      - r3
+    exps:
+      - untreated
+    tags:
+      - genome
+      - spikeins
+    adapters: oligo_ligation
+    ref:
+      genome: GRCz11
+      spikeins: spikeins20
+  dre_L2:
+    name_pattern: "{samplename}_{rep}_{exp}"
+    samplenames: dre_L2
+    reps:
+      - r1
+      - r2
+      - r3
+    exps:
+      - untreated
+    tags:
+      - genome
+      - spikeins
+    adapters: oligo_ligation2
+    ref:
+      genome: GRCz11
+      spikeins: spikeins20
+  dre_TA:
+    name_pattern: "{samplename}_{rep}_{exp}"
+    samplenames: dre_TA
+    reps:
+      - r1
+      - r2
+      - r3
+    exps:
+      - untreated
+      - treated
+    tags:
+      - genome
+      - spikeins
+    adapters: tailing_polyA
+    ref:
+      genome: GRCz11
+      spikeins: spikeins20
+  dre_TC:
+    name_pattern: "{samplename}_{rep}_{exp}"
+    samplenames: dre_TC
+    reps:
+      - r1
+      - r2
+      - r3
+    exps:
+      - untreated
+      - treated
+    tags:
+      - genome
+      - spikeins
+    adapters: tailing_polyC
+    ref:
+      genome: GRCz11
+      spikeins: spikeins20
